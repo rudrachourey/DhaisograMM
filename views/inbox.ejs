@@ -1,0 +1,331 @@
+<%include ./partials/navbar.ejs%>
+    <div class="messagediv">
+        <div class="alluserchat">
+            <div class="chatuser">
+                <h3>
+                    <%=loggedinUser.username%>
+                </h3>
+            </div>
+            <div class="chat-profile">
+
+                <!-- <div class="userprofile">
+                    <div class="chatprofile">
+                        <img src="" alt="">
+                    </div>
+                    <div class="charname">
+                        <h4>
+                            AYUSH
+                        </h4>
+                        <h5>
+                            XNXX
+                        </h5>
+                    </div>
+                </div> -->
+
+            </div>
+        </div>
+        <div class="cahtsection">
+            <div class="seactioninfo">
+                <div id="leftsection">
+                    <!-- <div class="seactionprofile"> </div>-->
+                    <!-- <a href="">
+                         <h4> username</h4>
+                    </a>  -->
+
+                </div>
+                <div id="rightsection">
+                    <div class="calling"></div>
+                </div>
+            </div>
+
+            <div id="nothing-here">
+                nothing here
+            </div>
+            <div class="chattingarea">
+                <div class="chat-div">
+                    <!-- <div id="leftmessage">
+                        <div id="msgContent1">
+                            <span>your</span>
+                            <h4>message</h4>
+                        </div>
+                    </div> -->
+                    <!-- <div id="rightmessage">
+                        <div class="messagepic"></div>
+                        <div id="msgContent2">
+                            <span>your</span>
+                            <h4>message</h4>
+                        </div>
+                    </div> -->
+
+
+
+                </div>
+                <div class="inputtype">
+                    <input class="messageinput" type="text " placeholder="Mesaage...">
+                    <button class="p-send">Send</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.6.1/socket.io.js"
+        integrity="sha512-xbQU0+iHqhVt7VIXi6vBJKPh3IQBF5B84sSHdjKiSccyX/1ZI7Vnkt2/8y8uruj63/DVmCxfUNohPNruthTEQA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    <script>
+
+
+
+
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyC7IpQGk4SU6UggUTY4HaCVGQ4WmDQTbUc",
+            authDomain: "sexyayush-1ed5e.firebaseapp.com",
+            databaseURL: "https://sexyayush-1ed5e-default-rtdb.firebaseio.com",
+            projectId: "sexyayush-1ed5e",
+            storageBucket: "sexyayush-1ed5e.appspot.com",
+            messagingSenderId: "662620309609",
+            appId: "1:662620309609:web:ee1f796e41bd620d0f3af8",
+            measurementId: "G-BDDNXF8BFS"
+        };
+
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+
+
+        // var userprofile = document.querySelector('.userprofile')
+        var nothinghere = document.querySelector('#nothing-here')
+        var chettingarea = document.querySelector('.chattingarea')
+
+        var socket = io();
+
+        var output = document.querySelector('.chat-div')
+        var leftsectionh4 = document.querySelector('#leftsection')
+        var UserMe = JSON.parse('<%- loggedinUser %>');
+        const Allusers = JSON.parse('<%- Allusers %>');
+        console.log(Allusers, 'userrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr')
+        var privateMessageTo;
+        var ppIMG;
+        var ppUsername;
+        // Use the data in your client-side code
+        // console.log(UserMe, 'user');
+
+
+        var usersDiv = document.querySelector('.chat-profile')
+        // var icon = document.querySelector('#icon')
+        //  var navpic;
+        var html;
+        Allusers.forEach(e => {
+            console.log(e)
+            html += `<div class="userprofile" username='${e.username}'  profileimage='${e.profileimage}'  user-id ="${e._id}"  >
+                <div class="chatprofile">
+                <img src="/images/uploads/${e.profileimage}" alt="">
+                </div>
+                <div class="charname">
+                    <h4>${e.username}</h4>
+                    <h5>${e.name}</h5>
+                </div>
+                    </div>`
+        })   
+     usersDiv.innerHTML = html;
+   
+
+
+     
+        
+        var allUserList = document.querySelectorAll('.userprofile')
+        var seactionprofile = document.querySelector('seactionprofile')
+        var chatprofile;
+
+        allUserList.forEach(u => {
+
+            u.addEventListener('click', () => {
+               
+                const id = u.getAttribute('user-id')
+
+                privateMessageTo = id
+
+                const username = u.getAttribute('username')
+                const profileimage = u.getAttribute('profileimage')
+                ppIMG = profileimage
+                ppUsername= username
+                //    console.log(id)
+                //    console.log(username,"usernsameeeeeeeeee")
+                // console.log(profileimage, "profileimage........................")
+                nothinghere.style.display = 'none'
+                chettingarea.style.display = 'flex'
+                leftsectionh4.innerHTML = username
+                chatprofile = `<div class="seactionprofile">
+                <img src="/images/uploads/${profileimage}" alt="">
+                    </div>
+                        <h4> ${username}</h4>`
+
+                leftsectionh4.innerHTML = chatprofile
+                    
+
+
+
+
+                var messagesRef = firebase.database().ref(`users-${UserMe[0]._id}-messages`);
+                messagesRef
+                    .orderByChild('privateMsgTo')
+                    .equalTo(id)
+                    .on('value', function (snapshot) {
+                        var messages = snapshot.val();
+
+
+
+                        printAllMsgs(messages);
+                        console.log("chute ",messages);
+
+
+                        // console.log(userId, privateMessageTo.id);
+                    });
+
+
+
+
+            })
+        })
+
+     
+
+
+        function printAllMsgs(msgs) {
+            if (msgs) {
+                output.innerHTML = '';
+                for (var messageId in msgs) {
+                    var msg = msgs[messageId];
+                    console.log('xnxx', msg);
+
+                    // if (msg.privateMsgTo === privateMessageTo.id ) {
+                      
+
+                        if (msg.isMine === 'true') {
+                            output.innerHTML += `<div id="rightmessage">
+                    <div id="msgContent1">
+                    <h4>${msg.messageContent}</h4>
+                    </div>
+                    </div>`;
+                        }else {
+                            output.innerHTML += `<div id="leftmessage">
+                        <div class="messagepic">
+                            <img src="/images/uploads/${ppIMG}" alt="">
+                    </div>
+                <div id="msgContent2">
+                    <h4>${msg.messageContent}</h4>
+                </div>
+               </div>`;
+     }
+    }
+  }
+
+}
+
+        function registerOnSocket(UserMe) {
+            console.log(UserMe, "............rdgerdfg......................")
+            socket.emit('register', (UserMe[0]));
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        registerOnSocket(UserMe)
+        //////////////private message///////////////////////////
+
+
+        var message = document.querySelector('.messageinput')
+
+        document.querySelector('.p-send')
+            .addEventListener('click', function () {
+                console.log('click')
+                // console.log(message.va
+                console.log(privateMessageTo, message.value, 'sending msg toooooooo')
+
+
+                saveMessage((privateMsgTo = privateMessageTo), (messageContent = message.value), (isMine = 'true'));
+
+
+
+                socket.emit("pmessage", ({
+                    user: UserMe[0],
+                    to: privateMessageTo,
+                    message: message.value
+                }))
+
+                // document.querySelector('.chat-div').innerHTML += `<div id="rightmessage">
+                // <div id="msgContent1">
+                    
+                // <span>Your</span>
+                //     <h4>${message.value}</h4>
+                //     </div>
+                //     </div>`
+                message.value = "";
+            })
+            console.log(message.value)
+
+
+
+        socket.on("pmessage", (data) => {
+
+            console.log("Received message:", data);
+            saveMessage((privateMsgTo = data.id), (messageContent = data.text), (isMine = 'false'));
+
+//             document.querySelector('.chat-div').innerHTML += `<div id="leftmessage">
+//                 <div class="messagepic">
+//                 <img src="/images/uploads/${ppIMG}" alt="">
+//             </div>
+//           <div id="msgContent2">
+//           <span>${data.username}</span>
+//             <h4>${data.text}</h4>
+//          </div>
+// //    </div>`
+        });
+
+
+
+
+
+
+        function saveMessage(privateMsgTo, messageContent, isMine) {
+            // console.log(isMine, `users-${User.id}-messages`);
+            var messagesRef = firebase.database().ref(`users-${UserMe[0]._id}-messages`);
+            var newMessageRef = messagesRef.push();
+            newMessageRef.set({
+                privateMsgTo: privateMsgTo,
+                messageContent: messageContent,
+                timestamp: Date.now(),
+                isMine: isMine,
+            });
+        }
+
+
+
+
+
+
+    </script>
+
+    </body>
+
+    </html>

@@ -1,0 +1,70 @@
+<%include ./Partials/navbar.ejs%>
+
+<div id="edit-wraper">
+
+  <div class="edit-container">
+    <form class="mt-4" action="/update" method="post" >
+
+  <div class="editprofile">
+    <div id="editpic" > <img src="../images/uploads/<%=loggedinUser.profileimage%>" alt=""> </div>
+    <div id="changepic">
+      <h3><%=loggedinUser.username%></h3>
+        <span id="edtpic"> change profile Photo </span>
+    </div>
+    <!-- <form id="file-form" action="/upload" method="post" enctype="multipart/form-data">
+      <input id="file" type="file" name="filename"><br>
+      <input type="submit" value="Upload">
+    </form> -->
+  </div>
+     
+
+
+      <div class="editusername">
+        <label for="" class="form-label">Name</label>
+        <div class="userinput">
+          <input value="" name="name" type="text" placeholder="Name">
+          Help people discover your account by using the name you're known by: either your full name, nickname, or business name.
+          You can only change your name twice within 14 days.
+        </div>
+      </div>
+     
+
+      <div class="editusername">
+        <label for="" class="form-label">Username</label>
+            <div class="userinput">
+              <input value="<%=loggedinUser.username%>" name="username" type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" >
+          in most cases, you'll be able to change your username back to __imrudra for another 14 days. Learn more
+
+            </div>
+      </div>
+
+      <div id="bio" class="editusername">
+        <label for="" class="form-label">Bio</label>
+            <div class="userinput">
+              <input value="<%=loggedinUser.bio%>" name="bio" type="text" class="form-control" maxlength="150"  aria-describedby="emailHelp" >
+              <span>12/150</span> 
+            </div>
+      </div>
+   
+      <div class="editusername">
+        <label for="" class="form-label">Email</label>
+        <div class="userinput">
+          <input value="<%=loggedinUser.email%>" name="email" type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" >          
+          Personal information
+          Provide your personal information, even if the account is used for a business, a pet or something else. This won't be a part of your public profile.
+        </div>
+      </div>
+      <div id="editbutton" class="editusername">
+        <button type="submit" class="btn btn-primary">Submit</button>
+        <a href="/delete">
+          <h5>Deactivate my account</h5>
+        </a>
+      </div>
+    </form>
+    </div>
+
+</div>
+
+     
+
+<%include ./Partials/fotter.ejs%>

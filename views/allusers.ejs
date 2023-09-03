@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../stylesheets/style.css">
+  <title>Document</title>
+  <%include ./Partials/navbar.ejs%>
+</head>
+
+<body>
+
+  <div id="otherprofile">
+
+    <div class="full-profile-post">
+      
+      <i id="profile-cross" class="ri-close-fill"></i>
+      <div id="full-profile">
+          <div id="left-full">
+              <img src="" alt="">
+          </div>
+          <div id="right-full">
+              <div class="right-top-profile">
+                  <div class="profile-userinfor">
+                      <div class="profile"></div>
+                      <div data-userid="" class="username-profile">
+                          <h4>username</h4>
+                      </div>
+                  </div>
+              </div>
+              <div class="right-middle-profile">
+                  <!-- <div class="no-comments">  </div> -->
+                  <!-- <div class="commented-userp"> -->
+                      <div class="commented-user-profile-p">
+                          <img src="" alt="">
+                      <!-- </div> -->
+                      <div class="commented-user-name-profile">
+                          <div class="timediv">
+                              <h3 id="profile-commentedusersid">username</h3>
+                              <h3>comment</h3>
+                          </div>
+                          <p>createdAt</p>
+                      </div>
+                  </div>
+              </div>
+              <div class="right-bottom-profile">
+                  <div class="bottom-topprofile">
+                      <div id="bottom-topprofile-left">
+                          <i class="ri-heart-line like-button" data-postId="post_id_here"></i>
+                          <i class="ri-chat-3-line comment-icon" data-postId="post_id_here"></i>
+                      </div>
+                      <i class="ri-bookmark-line save-button" data-postId="post_id_here"></i>
+                  </div>
+                  <div class="bottom-botmprofile">
+                      <h4 class="full-likes-count">likes</h4>
+                      <span>date</span>
+                      <div class="last-liked-by"></div>
+                  </div>
+                  <form class="comment-form">
+                      <input type="text" class="comment-input" required placeholder="Add comment">
+                      <button class="comment-button"  type="submit"> Post </button>
+                  </form>
+              </div>
+          </div>
+      </div>
+  </div>
+
+    <div class="allprofile">
+      <div id="allprofilepiccontainer">
+        <div id="allprofilepic">
+          <img src="../images/uploads/<%=user.profileimage%> " alt="">
+        </div>
+      </div>
+      <div id="allinformation">
+        <div id="forloggedinuserprofile" loggedinuserid="<%=loggedinUser._id%>"  class="info">
+          <h1>
+            <%=user.username%>
+          </h1>
+
+          <%if(loggedinUser.id !==user.id){%>
+            <button userId="<%= user._id %>" id="followButton">
+              <a href="#">
+                <%= loggedinUser.following.indexOf(user._id)===-1 ? "Follow" : "Unfollow" %>
+              </a>
+            </button>
+
+            <%}else{%>
+              <button id="editbtn">
+                <a id="aditatag" href="/edit">Edit Your Profile</a>
+              </button>
+              <%}%>
+                <div id='add'><i class="ri-user-add-line"></i> </div>
+
+
+        </div>
+        <div id="otherFollow-info" class="info">
+          <h3><%=user.posts.length%> post</h3>
+          <div data-userid="<%=user.id%>" id="followers">
+            <h3 ><%=user.followers.length%> <span> followers</h3>
+        </div>
+        <div data-userid="<%=user.id%>" id="following">
+            <h3><%=user.following.length%> <span> following</h3>
+        </div>
+        </div>
+        <div id="other-caption" class="info">
+          <h6><%=user.name%></h6>
+          <h6 id="bioo"><%=user.bio%></h6>
+        </div>
+      </div>
+    </div>
+    <div class="followerdiv">
+        <div class="topinfo">
+            <h2>Followers</h2>
+        </div>
+        <div class="followdiv">
+            <div class="followerinfo">
+                <div class="followerimg">
+                    <img src="" alt="">
+                </div>
+                <div class="followerusername">
+                    <h4 followID="">username</h4>
+                    <h5>name</h5>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="followingdiv">
+               <div class="topinfo">
+            <h2>Following</h2>
+        </div>
+            <div class="followdiv">
+            <div class="followerinfo">
+                <div class="followerimg">
+                    <img src="" alt="">
+                </div>
+                <div class="followerusername">
+                    <h4  followID="">username</h4>
+                    <h5>name</h5>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="post">
+        <%userposts.forEach((elem)=>{%>
+          <div class="profileposts">
+            <div profilepostid="<%=elem._id%>" class="like-div">
+              <div class="li">
+                  <i class="ri-heart-fill"></i>
+                  <h1>
+                      <%=elem.likes.length%>
+                  </h1>
+              </div>
+              <div class="co">
+                  <i class="ri-chat-3-fill"></i>
+                  <h1>
+                      <%=elem.comments.length%>
+                  </h1>
+              </div>
+          </div>
+            <img src="<%=elem.media%>" alt="">
+          </div>
+          <%})%>
+
+      </div>
+  </div>
+
+
+  <!-- Add this script in your HTML or include it in a separate JavaScript file -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/6.0.2/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/6.0.2/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/6.0.2/firebase-firestore.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/6.0.2/firebase-database.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/6.0.2/firebase-storage.js"></script>
+<!-- <script src="../javascripts/main.js"></script> -->
+
+
+
+  <script>
+
+    
+
+    const followButton = document.getElementById("followButton");
+    const followerCountElement = document.getElementById("followers");
+
+    followButton.addEventListener("click", function (event) {
+      event.preventDefault();
+
+      const userId = followButton.getAttribute("userId");
+
+      const url = `/friend/${userId}`;
+
+      fetch(url, {
+        method: "GET",
+      })
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error("Network response was not ok");
+          }
+          return response.json(); // Parse the response as JSON
+        })
+        .then((data) => {
+          // Update the button text based on the response
+          const buttonText = data.isFollowing ? "Unfollow" : "Follow";
+          followButton.querySelector("a").innerText = buttonText;
+
+          // Update the follower count
+          followerCountElement.innerHTML = `
+          <h3 >${data.followerCount}<span> followers</h3>`
+
+          // Add/remove class based on the isFollowing status
+          followButton.classList.toggle("following", data.isFollowing);
+
+          // Store the follow/unfollow status in local storage
+          localStorage.setItem("followStatus", data.isFollowing ? "following" : "notFollowing");
+        })
+        .catch((error) => {
+          console.error("Error:", error);
+        });
+    });
+
+    // On page load, retrieve and set the follow/unfollow status from local storage
+    document.addEventListener("DOMContentLoaded", function () {
+      const followStatus = localStorage.getItem("followStatus");
+
+      if (followStatus === "following") {
+        followButton.querySelector("a").innerText = "Unfollow";
+        followButton.classList.add("following");
+      } else {
+        followButton.querySelector("a").innerText = "Follow";
+        followButton.classList.remove("following");
+      }
+    });
+
+
+
+    
+let profileUserID;
+let rightFullTop = document.querySelector('.username-profile');
+
+document.addEventListener("DOMContentLoaded", function () {
+
+
+const fullprofilecontainer = document.querySelector('.full-profile-post');
+const fulprofilpostclose = document.querySelector('#profile-cross');
+const likeDivs = document.querySelectorAll('.like-div');
+
+
+document.addEventListener("click", (event) => {
+    const fullprofile = event.target.closest('.like-div');
+    if (fullprofile) {
+        profileUserID = fullprofile.getAttribute('profilepostid');
+        // window.location = `/userprofile/${userID}`;
+        fetchFullPostData(profileUserID);
+        console.log('profile full post User ID:', profileUserID);
+        // alert("heyyy id");
+    }
+});
+
+
+
+
+console.log('Number of .like-div elements:', likeDivs.length);
+
+likeDivs.forEach((e) => {
+    e.addEventListener("click", () => {
+        fullprofilecontainer.style.display = "flex";
+    });
+});
+
+fulprofilpostclose.addEventListener("click", () => {
+    console.log('Clicked close');
+    fullprofilecontainer.style.display = "none";
+});
+
+console.log('Attaching event listeners to .like-div elements');
+
+
+function fetchFullPostData(profileUserID) {
+    // Make an AJAX request to fetch full post data
+    $.ajax({
+        type: 'GET',
+        url: `/posts/${profileUserID}/details`,
+        dataType: 'json',
+        success: function (response) {
+            console.log('Full post details:', response);
+            displayFullPost(response);
+        },
+        error: function (error) {
+            console.error(error);
+        }
+    });
+}
+
+function displayFullPost(fullPostData) {
+    const fullProfileContainer = document.querySelector('.full-profile-post');
+    const leftFullImg = fullProfileContainer.querySelector('#left-full img');
+    const usernameProfile = fullProfileContainer.querySelector('.username-profile h4');
+    const profileImage = fullProfileContainer.querySelector('.commented-user-profile-p img');
+    const commentsSection = fullProfileContainer.querySelector('.right-middle-profile');
+    const Sectionnocomments = document.querySelector('.no-comments');
+    const menuIcon = document.querySelector('#menu-icon');
+
+
+
+
+    // Update the content of the elements with the full post data
+    leftFullImg.src = fullPostData.media[0];
+    usernameProfile.textContent = fullPostData.userid.username;
+    profileImage.src = fullPostData.userid.profileimage;
+
+    // Show the full-profile container
+    fullProfileContainer.style.display = "flex";
+
+
+    // Display likes count and last liked by
+    const likesCount = fullProfileContainer.querySelector('.full-likes-count ');
+    const lastLikedBy = fullProfileContainer.querySelector('.last-liked-by');
+
+    rightFullTop.setAttribute('data-userid', fullPostData.userid._id);
+
+
+    likesCount.textContent = `${fullPostData.likes.length} likes`;
+
+    if (fullPostData.likes.length > 0) {
+        const lastLike = fullPostData.likes[fullPostData.likes.length - 1];
+        lastLikedBy.textContent = `Last liked by ${lastLike.username}`;
+    }
+    // Display date posted
+    console.log("  loggedinuser id who posts it  ", fullPostData.userid._id)
+    const dateSpan = fullProfileContainer.querySelector('.bottom-botmprofile span');
+    const postDate = new Date(fullPostData.createdAt);
+    const currentDate = new Date();
+    const timeDiff = currentDate - postDate;
+    const daysDiff = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
+
+    if (daysDiff === 0) {
+        dateSpan.textContent = 'Today';
+    } else if (daysDiff === 1) {
+        dateSpan.textContent = 'Yesterday';
+    } else {
+        dateSpan.textContent = `${daysDiff} days ago`;
+    }
+
+
+
+    // Display comments
+    commentsSection.innerHTML = ''; // Clear existing comments
+
+    if (fullPostData.comments.length > 0) {
+
+        fullPostData.comments.forEach((comment) => {
+            const commentElement = document.createElement('div');
+            commentElement.classList.add('commented-userp');
+            commentElement.innerHTML = `
+    <div class="commented-user-profile-p">
+        <img src="../images/uploads/${comment.user.profileimage}" alt="User Profile">
+    </div>
+    <div class="commented-user-name-profile">
+        <div class="timediv">
+            <h3 id="commentedusersid" commentuserID ="${comment.user._id}">${comment.user.username}</h3>
+            <h3>${comment.content}</h3>
+        </div>
+        <p>${comment.createdAt}</p>
+    </div>
+`;
+            commentsSection.appendChild(commentElement);
+        });
+        
+    }
+    else {
+        commentsSection.innerHTML = '<div class="no-comments">No comments yet</div>';
+    }
+
+    // Clear the comment input field
+    const commentInputf = fullProfileContainer.querySelector('.comment-input');
+    commentInputf.value = '';
+
+
+
+    // Comment functionality
+    const commentForm = fullProfileContainer.querySelector('.comment-form');
+    const commentInput = commentForm.querySelector('.comment-input');
+    const commentButton = commentForm.querySelector('.comment-button');
+
+    commentForm.addEventListener('submit', (event) => {
+        event.preventDefault();
+        const content = commentInput.value.trim();
+        if (content !== '') {
+            // Send AJAX request to add a new comment
+            $.ajax({
+                type: 'POST',
+                url: `/comments/${profileUserID}`,
+                data: { content },
+                dataType: 'json',
+                success: function (response) {
+                    console.log('Comment added:', response);
+                    // Refresh the comments section
+                    fetchFullPostData(profileUserID);
+                },
+                error: function (error) {
+                    console.error(error);
+                }
+            });
+            commentInput.value = '';
+        }
+    });
+
+    // Like functionality
+    const likeButton = fullProfileContainer.querySelector('.like-button');
+    let isLiking = false; // Flag to prevent multiple requests
+
+
+
+
+
+    likeButton.addEventListener('click', async () => {
+        if (isLiking) {
+            return;
+        }
+
+        isLiking = true;
+
+        try {
+            const response = await $.ajax({
+                type: 'POST',
+                url: `/like/${profileUserID}`,
+                dataType: 'json',
+            });
+
+            console.log('Post liked:', response);
+            likesCount.textContent = `${response.likeCount} likes`;
+            // Handle last liked by, toggle styles, etc.
+        } catch (error) {
+            console.error(error);
+        } finally {
+            isLiking = false;
+        }
+    });
+
+    // Save functionality
+    const saveButton = fullProfileContainer.querySelector('.save-button');
+
+    saveButton.addEventListener('click', () => {
+        // Send AJAX request to save the post
+        $.ajax({
+            type: 'POST',
+            url: `/save/${profileUserID}`,
+            dataType: 'json',
+            success: function (response) {
+                console.log('Post saved:', response);
+                // Update UI accordingly
+            },
+            error: function (error) {
+                console.error(error);
+            }
+        });
+    });
+
+
+
+}
+
+
+})
+
+
+
+const loggedinuserelement = document.querySelector('#forloggedinuserprofile');
+let loggedinUserId; 
+
+loggedinUserId = loggedinuserelement ? loggedinuserelement.getAttribute('loggedinuserid') : null;
+
+
+
+document.addEventListener("click", (event) => {
+    const searchAndprofile = event.target.closest('.username-profile');
+    if (searchAndprofile) {
+        const userID = searchAndprofile.getAttribute('data-userid');
+        window.location = `/userprofile/${userID}`;
+  
+    }
+});
+
+
+// Get the logged-in user's ID outside the click event listener
+
+document.addEventListener("click", (event) => {
+    // console.log("Clicked element:", event.target);
+
+    const commentElement = event.target.closest('#commentedusersid');
+    // console.log("#commentedusersid:", commentElement);
+
+    if (commentElement) {
+        const userID = commentElement.getAttribute('commentuserID');
+        // console.log("commentuserID:", userID);
+
+        if (userID === loggedinUserId) {
+            window.location.href = `/profile`; // Redirect to the logged-in user's profile
+        } else {
+            window.location.href = `/userprofile/${userID}`;
+        }
+    }
+});
+
+
+    
+
+
+
+
+
+
+
+////////////////////////////************//////////////////////////////////////////************************//////////////////////////////////////// 
+////////////////////////////************FOLLOwERS AND FOLLOWING DISPLAYING SCRIPT************************//////////////////////////////////////// 
+////////////////////////////************//////////////////////////////////////////************************//////////////////////////////////////// 
+
+
+
+
+
+
+let followingCountElement = document.getElementById("following");
+let followerCOuntElement = document.getElementById("followers");
+const followersDiv = document.querySelector(".followerdiv .followdiv");
+const followingDiv = document.querySelector(".followingdiv .followdiv");
+let followersdiv = document.querySelector(".followerdiv ");
+let followingdiv = document.querySelector(".followingdiv"); // Declare followingdiv here
+let followerusername = document.querySelector(".followerusername h4");
+let followId;
+let useridfollow;
+document.addEventListener("DOMContentLoaded", () => {
+
+  flag = 0;
+
+  followerCOuntElement.addEventListener("click", () => {
+    if (flag === 0) {
+      followersdiv.style.display = "initial";
+      console.log("heyyyy");
+      flag = 1;
+    } else {
+      followersdiv.style.display = "none";
+      flag = 0;
+    }
+  });
+
+  followingCountElement.addEventListener("click", () => {
+    if (flag === 0) {
+      followingdiv.style.display = "initial";
+      flag = 1;
+    } else {
+      followingdiv.style.display = "none";
+      flag = 0;
+    }
+  });
+
+  document.addEventListener("click", (event) => {
+    if (!followersdiv.contains(event.target) && !followerCOuntElement.contains(event.target)) {
+      followersdiv.style.display = "none";
+      flag = 0;
+    }
+
+    if (!followingdiv.contains(event.target) && !followingCountElement.contains(event.target)) {
+      followingdiv.style.display = "none";
+      flag = 0;
+    }
+  });
+
+  followerCOuntElement.addEventListener("click", () => {
+    const userId = followerCOuntElement.getAttribute("data-userid");
+    loadFollowers(userId);
+  });
+
+  followingCountElement.addEventListener("click", () => {
+    const userId = followingCountElement.getAttribute("data-userid");
+    loadFollowing(userId);
+  });
+});
+
+function loadFollowers(userId) {
+  fetch(`/getFollowers/${userId}`, {
+    method: "GET",
+  })
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+      return response.json();
+    })
+    .then((data) => {
+      displayFollowers(data.followers);
+    })
+    .catch((error) => {
+      console.error("Error:", error);
+    });
+}
+
+function loadFollowing(userId) {
+  fetch(`/getFollowing/${userId}`, {
+    method: "GET",
+  })
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error(`Network response was not ok - Status: ${response.status}`);
+      }
+      return response.json();
+    })
+    .then((data) => {
+        console.log
+      displayFollowing(data.following);
+    })
+    .catch((error) => {
+      console.error("Error:", error);
+    });
+}
+
+function displayFollowers(followers) {
+  // Clear the content of followersDiv
+  followersDiv.innerHTML = "";
+
+  if (followers.length === 0) {
+    const noFollowersMessage = document.createElement("p");
+    noFollowersMessage.textContent = "No followers yet.";
+    followersDiv.appendChild(noFollowersMessage);
+  } else {
+    // Loop through the followers and populate the followersDiv
+    followers.forEach((follower) => {
+      const followerInfo = createFollowerInfoElement(follower);
+      followersDiv.appendChild(followerInfo);
+    });
+  }
+}
+
+function displayFollowing(following) {
+  // Clear the content of followingDiv
+  followingDiv.innerHTML = "";
+
+  if (following.length === 0) {
+    const noFollowingMessage = document.createElement("p");
+    noFollowingMessage.textContent = "Not following anyone yet.";
+    followingDiv.appendChild(noFollowingMessage);
+  } else {
+    // Loop through the following and populate the followingDiv
+    following.forEach((followingUser) => {
+      const followingInfo = createFollowerInfoElement(followingUser);
+      followingDiv.appendChild(followingInfo);
+    });
+  }
+}
+
+function createFollowerInfoElement(user) {
+  const followerInfoElement = document.createElement("div");
+  followerInfoElement.classList.add("followerinfo");
+
+  const followerImgElement = document.createElement("div");
+  followerImgElement.classList.add("followerimg");
+  const imgElement = document.createElement("img");
+  imgElement.src = user.profileImage; // Update with actual property
+  imgElement.alt = `${user.username}'s Profile Image`;
+  followerImgElement.appendChild(imgElement);
+
+  const followerUsernameElement = document.createElement("div");
+  followerUsernameElement.classList.add("followerusername");
+   const usernameElement = document.createElement("h4");
+  usernameElement.setAttribute("followID", user._id);
+  usernameElement.textContent = user.username;
+  const nameElement = document.createElement("h5");
+  nameElement.textContent = user.name;
+  followerUsernameElement.appendChild(usernameElement);
+  followerUsernameElement.appendChild(nameElement);
+
+  followerInfoElement.appendChild(followerImgElement);
+  followerInfoElement.appendChild(followerUsernameElement);
+  usernameElement.addEventListener("click", (event) => {
+     followId = event.target.getAttribute("followID"); // Retrieve the user's ID
+    // console.log(followId, "follow IDDD");
+    window.location = `/userprofile/${followId}`;
+    if (followId === loggedinUserId) {
+        window.location.href = `/profile`; // Redirect to the logged-in user's profile
+    } else {
+        window.location.href = `/userprofile/${followId}`;
+    }
+  });
+
+
+  return followerInfoElement;
+  
+  
+}
+
+
+followerCOuntElement.addEventListener("click", () => {
+    const userId = followerCOuntElement.getAttribute("data-userid");
+    loadFollowers(userId);
+});
+
+// Rest of your existing code for creating follower info elements and loading followers/following
+
+
+
+
+
+
+////////////////////////////************//////////////////////////////////////////************************//////////////////////////////////////// 
+////////////////////////////************FOLLOwERS AND FOLLOWING DISPLAYING SCRIPT************************//////////////////////////////////////// 
+////////////////////////////************//////////////////////////////////////////************************//////////////////////////////////////// 
+
+  </script>
+  
+  
+</body>
+
+</html>
+
+

@@ -1,0 +1,353 @@
+<%include ./Partials/navbar.ejs%>
+
+    <div class="full-profile-post">
+        <div class="delete-confirm-div">
+            <div class="confirmation-div">
+                <h1>Delete post?</h1>
+                <span>Are you sure you want to delete this psots</span>
+            </div>
+            <div class="confirm-option">
+                <h3 id="confirm-delete">Delete</h3>
+            </div>
+            <div id="confirm-cancel" class="confirm-option">
+                <h3>Cancel</h3>
+
+            </div>
+        </div>
+        <div class="deleste-pots-div">
+            <div id="Delete" class="option-div">
+                <h3>Delete</h3> </a>
+            </div>
+            <div class="option-div">
+                <h3>Edit</h3>
+            </div>
+            <div id="cancel" class="option-div">
+                <h3>Cancel</h3>
+            </div>
+        </div>
+        <i id="profile-cross" class="ri-close-fill"></i>
+        <div id="full-profile">
+            <div id="left-full">
+                <img src="" alt="">
+            </div>
+            <div id="right-full">
+                <div class="right-top-profile">
+                    <div class="profile-userinfor">
+                        <div class="profile"></div>
+                        <div data-userid="" class="username-profile">
+                            <h4>username</h4>
+                        </div>
+                    </div>
+                    <i id="menu-icon" class="ri-more-fill"></i>
+                </div>
+                <div class="right-middle-profile">
+                    <!-- <div class="no-comments">  </div> -->
+                    <!-- <div class="commented-userp"> -->
+                    <div class="commented-user-profile-p">
+                        <img src="" alt="">
+                        <!-- </div> -->
+                        <div class="commented-user-name-profile">
+                            <div class="timediv">
+                                <h3 id="profile-commentedusersid">username</h3>
+                                <h3>comment</h3>
+                            </div>
+                            <p>createdAt</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="right-bottom-profile">
+                    <div class="bottom-topprofile">
+                        <div id="bottom-topprofile-left">
+                            <i class="ri-heart-line like-button" data-postId="post_id_here"></i>
+                            <i class="ri-chat-3-line comment-icon" data-postId="post_id_here"></i>
+                        </div>
+                        <i class="ri-bookmark-line save-button" data-postId="post_id_here"></i>
+                    </div>
+                    <div class="bottom-botmprofile">
+                        <h4 class="full-likes-count">likes</h4>
+                        <span>date</span>
+                        <div class="last-liked-by"></div>
+                    </div>
+                    <form class="comment-form">
+                        <input type="text" class="comment-input" required placeholder="Add comment">
+                        <button class="comment-button" type="submit"> Post </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    </div>
+    <div id="profile">
+
+
+        <div class="profile-container">
+            <div id="profilepiccontainer">
+                <div id="profilepic">
+                    <img src="" alt="">
+                </div>
+            </div>
+            <form id="profilePhotoForm" enctype="multipart/form-data">
+                 <input id="profilePhoto" type="file" name="profilePhoto" accept="image/*"/>
+              </form>   
+            <div class="profile-pic-select">
+                    <div id="changeprofile" class="profile-select">
+                        <h2>Change Profile Photo</h2>
+                    </div>
+                    <div id="forupload" class="profile-select active">
+                        <h4>Upload Photo</h4>
+                    </div>
+                    <div id="forcancelimg" class="profile-select active">
+                        <h5>Cancel</h5>
+                    </div>
+            </div>
+            <div id="information">
+
+                <div id="username-info" class="info">
+                    <h1 class="loggedinUser-username">
+                        <%=loggedinUser.username%>
+                    </h1>
+                    <a href="/edit"><button>Edit Your Profile</button></a>
+                    <button> Add tools </button>
+
+
+                </div>
+                <div class="info" id="followunfollow-info">
+                    <div id="allpost">
+                        <h3>
+                            <%=loggedinUser.posts.length%> post
+                        </h3>
+                    </div>
+                    <div id="followers">
+                        <h3><%=loggedinUser.followers.length%> <span>followers</h3>
+                    </div>
+                    <div id="following">
+                        <h3><%=loggedinUser.following.length%> <span>following</h3>
+                    </div>
+                </div>
+                <div loggedinUser="<%=loggedinUser.id%>" id="caption-name" class="info">
+                    <h6>
+                        <%=loggedinUser.name%>
+                    </h6>
+                    <h6 id="bioo">
+                        <%=loggedinUser.bio%>
+                    </h6>
+                </div>
+
+            </div>
+            <div class="followerdiv">
+                <div class="topinfo">
+                    <h2>Followers</h2>
+                </div>
+                <div class="followdiv">
+                    <div class="followerinfo">
+                        <div class="followerimg">
+                            <img src="" alt="">
+                        </div>
+                        <div class="followerusername">
+                            <h4 followID="">username</h4>
+                            <h5>name</h5>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="followingdiv">
+                       <div class="topinfo">
+                    <h2>Following</h2>
+                </div>
+                    <div class="followdiv">
+                    <div class="followerinfo">
+                        <div class="followerimg">
+                            <img src="" alt="">
+                        </div>
+                        <div class="followerusername">
+                            <h4  followID="">username</h4>
+                            <h5>name</h5>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="createpost">
+                <div id="createnav">
+                    <h1> Create new post </h1>
+                </div>
+
+                <div id="selectcont">
+
+                    <form id="file-posts" method="post" action="/post" enctype="multipart/form-data">
+                        <div class="input-box">
+                            <label for="caption"> Caption </label>:
+                            <input type="text" id="caption" name="caption" placeholder="Write A caption... ">
+                        </div>
+
+                        <div id="inputbox" class="input-box">
+                            <label for="postfile">Select from computer</label> :
+                            <input id="postfile" type="file" accept="image/*,video/*" name="filepost"><br>
+                        </div>
+                    </form>
+                    <div id="slecet">
+                        <h4>Select from computer</h4>
+                    </div>
+
+                </div>
+
+
+
+
+
+
+            </div>
+
+
+        </div>
+
+
+
+
+
+        <div id="posts-container">
+            <div id="indigator">
+                <h3 id="postssection">POST</h3>
+                <h3 id="savesection">SAVED</h3>
+            </div>
+            <div class="postsaved-conatainer">
+                <div class="post">
+
+                    <%newposts.forEach((e)=>{%>
+
+                        <div class="profileposts">
+                            <div profilepostid="<%=e._id%>" class="like-div">
+                                <div class="li">
+                                    <i class="ri-heart-fill"></i>
+                                    <h1>
+                                        <%=e.likes.length%>
+                                    </h1>
+                                </div>
+                                <div class="co">
+                                    <i class="ri-chat-3-fill"></i>
+                                    <h1>
+                                        <%=e.comments.length%>
+                                    </h1>
+                                </div>
+                            </div>
+                            <img src="<%=e.media%>" alt="">
+                        </div>
+                        <%})%>
+
+                </div>
+                <div class="savedposts">
+                    <h1></h1>
+                    <%savedPosts.forEach((e)=>{%>
+                        <div class="saved">
+                            <div profilepostid="<%=e._id%>" class="like-div">
+                                <div class="li">
+                                    <i class="ri-heart-fill"></i>
+                                    <h1>
+                                        <%=e.likes.length%>
+                                    </h1>
+                                </div>
+                                <div class="co">
+                                    <i class="ri-chat-3-fill"></i>
+                                    <h1>
+                                        <%=e.comments.length%>
+                                    </h1>
+                                </div>
+                            </div>
+                            <img src="<%=e.media%>" alt="">
+                        </div>
+                        <%})%>
+
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+    <script src="https://www.gstatic.com/firebasejs/6.0.2/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/6.0.2/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/6.0.2/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/6.0.2/firebase-database.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/6.0.2/firebase-storage.js"></script>
+
+
+    <script>
+
+
+        const menu = document.getElementById('menu-icon');
+        const delestePotsDiv = document.querySelector('.deleste-pots-div');
+        const deleteConfirmDiv = document.querySelector('.delete-confirm-div');
+        const confirmDeleteButton = document.getElementById('confirm-delete');
+        const confirmCancelButton = document.getElementById('confirm-cancel');
+        const cancel = document.getElementById('cancel');
+        const fullProfilePost = document.querySelector('.full-profile-post')
+        const deleteLink = document.getElementById('Delete');
+
+        // Open delestePotsDiv
+        menu.addEventListener("click", () => {
+            delestePotsDiv.style.display = "flex";
+            // deleteConfirmDiv.style.display = "none"; // Hide delete confirmation div
+        });
+
+        // Close delestePotsDiv when clicking outside of it
+        document.addEventListener("click", (event) => {
+            if (!delestePotsDiv.contains(event.target) && !menu.contains(event.target)) {
+                delestePotsDiv.style.display = "none";
+            }
+        });
+
+
+        // Cancel button event for delete confirmation
+        confirmCancelButton.addEventListener("click", () => {
+            deleteConfirmDiv.style.display = "none";
+        });
+
+
+        cancel.addEventListener("click", () => {
+            delestePotsDiv.style.display = "none";
+        });
+
+
+        // Show delete confirmation div when clicking on "Delete" link
+        deleteLink.addEventListener("click", () => {
+            delestePotsDiv.style.display = "none"; // Hide the main menu
+
+            deleteConfirmDiv.style.display = "initial"; // Show the delete confirmation div
+        });
+
+
+        // Delete button event
+        confirmDeleteButton.addEventListener("click", () => {
+            console.log(profileUserID);
+
+            // Send AJAX request to delete the post
+            $.ajax({
+                type: 'DELETE',
+                url: `/delete/${profileUserID}`,
+                dataType: 'json',
+                success: function (response) {
+                    console.log('Post deleted:', response);
+                    fullProfilePost.style.display = "none";
+                    location.reload();
+                    // Handle success (remove post from UI, etc.)
+                },
+                error: function (error) {
+                    console.error('Error deleting post:', error);
+                    // Handle error scenario here
+                }
+            });
+
+            // Hide the delete confirmation div after deletion
+            deleteConfirmDiv.style.display = "none";
+        });
+
+
+
+    </script>
+
+    <%include ./Partials/fotter.ejs%>

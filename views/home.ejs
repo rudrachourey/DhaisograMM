@@ -1,0 +1,963 @@
+<%include ./partials/navbar.ejs%>
+  <div class="full-story">
+    <i id="story-prev" class="ri-arrow-left-s-line"></i>
+    <div class="story-cont">
+      <div class="storycontainer">
+        <div class="line"></div>
+        <div class="user-div">
+          <div class="profile-image">
+            <img src="" alt="">
+          </div>
+          <h4>username</h4>
+        </div>
+        <img src="" alt="">
+      </div>
+    </div>
+    
+    <i id="story-next" class="ri-arrow-right-s-line"></i>
+    <i id="story-close" class="ri-close-fill"></i>
+  </div>
+
+  <div id="full-homePosts-container">
+    <i class="ri-close-line"></i>
+    <div class="full-home-post">
+      <div class="left-full-home">
+        <img src="" alt="">
+      </div>
+      <div class="right-full-home">
+        <div class="right-full-top" data-userid="">
+          <div class="full-top-profile">
+            <img src="" alt="">
+          </div>
+          <h4 id="useranmefromcomment">username</h4>
+          <p></p>
+        </div>
+        <div class="right-full-middle">
+          <div class="commented-user">
+            <div class="no comments"></div>
+            <div class="commented-user-profile"> <img src="" alt=""> </div>
+            <div class="commented-user-name">
+              <h3>username</h3>
+              <h3>comment</h3>
+            </div>
+          </div>
+        </div>
+        <div class="right-full-bottom">
+          <div class="right-full-bottomTop">
+            <div class="full-like-top">
+              <div class="full-topleft">
+                <i class="ri-heart-line"></i>
+                <i class="ri-chat-3-fill"></i>
+              </div>
+              <div class="full-topright"></div>
+            </div>
+            <div class="full-like-bottom">
+              <div class="full-like-cont">
+                <h4> Likes </h4>
+              </div>
+
+              <div class="likedby">
+
+                <span> Liked by</span>
+              </div>
+
+            </div>
+          </div>
+          <div class="right-full-bottombtom">
+            <form id="comment-form">
+              <!-- <input type="hidden" id="postId" value="<%=userposts._id%>" > -->
+              <input id="commentinput" type="comments" id="commentinput" required placeholder="Add a comment">
+              <button class="btn btn-white" type="submit">Post</button>
+            </form>
+
+
+
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <div class="homepage">
+    <form id="story-upload-form"  enctype="multipart/form-data">
+      <input type="file" id="story-image" name="story_img" accept="image/*">
+      <!-- <button type="submit">Upload Story</button> -->
+    </form>
+    <div id="storys">
+      <i class="ri-add-line"></i>
+      <div class="lggedinusercont">
+        <div id="loggedin-user-img">
+          <img src="../images/uploads/<%=loggedinUser.profileimage%>" alt="">
+        </div>
+      </div>
+
+      <div class="sotrycontainer">
+
+        <!-- <div class="story">
+
+        </div> -->
+      </div>
+    </div>
+
+    <div id="like-show-div-cont">
+      <div class="like-show-div">
+        <div class="top-like">
+          <h2>Likes</h2>
+        </div>
+        <div class="liked-user-cont">
+          <!-- <div class="liked-user">
+              <div class="liked-profile"></div>
+              <div class="liked-username">
+                <h4>username</h4>
+                <h4>name</h4>
+              </div>
+            </div> -->
+        </div>
+      </div>
+    </div>
+
+    <div loggedinuserhome="<%=loggedinUser._id%>" id="homepostscontainer">
+      <div id="homepost">
+        <% userposts.forEach((e)=> { %>
+          <div class="home-posts">
+            <div class="userinfornation" userId='<%= e.userid ? e.userid._id : loggedinUser._id %>'>
+              <div class="profilepohoto">
+                <img src="../images/uploads/<%= e.userid ? e.userid.profileimage : loggedinUser.profileimage %>" alt="">
+              </div>
+              <h5>
+                <%= e.userid ? e.userid.username : loggedinUser.username %>
+              </h5>
+            </div>
+            <div class="card-img">
+              <img src="<%= e.media %>" alt="">
+            </div>
+            
+            <div class="like">
+              <div class="likeleft">
+                <div class="like-heart">
+                  <a likeId="<%= e._id%>">
+                    <i id="heart" class="ri-heart-line"></i>
+                    <p><strong>
+                        <%=e.likes.length %>
+                      </strong>
+                    </p>
+                  </a>
+                </div>
+                <i id="userpodtcommenticon" userPostsId="<%=e._id%>" class="ri-chat-3-line comment-icon"></i>
+              </div>
+              <div class="svg-container">
+                <svg saved="<%= e._id %>" class="save-icon <%= e.isSaved ? 'bookmark-filled' : 'bookmark-unfilled' %>"
+                  xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="24" height="24">
+                  <path d="M20 0 L80 0 L100 20 L100 100 L0 100 L0 20 Z" />
+                </svg>
+              </div>
+            </div>
+
+
+            <div class="card-content">
+              <h4>
+                <span><%= e.userid.username%></span> <%= e.caption %>
+              </h4>
+              <p> <%=e.createdAt%></p>
+
+              <!-- Display the last person who liked the post in the bottom section -->
+              <% if (e.lastLikedBy) { %>
+                <h4  postsid="<%=e._id%>">Last liked by: <%= e.lastLikedBy %></h4>
+                <span postsid="<%= e._id %>" class="liked-ids">and <span><%=e.likes.length%> <span>others
+                </span> <br>
+                <% } %>
+                  <% if(e.comments.length>0){%>
+                    <span id="lastcomment"> View all <span> 
+                      <%=e.comments.length%> <span></span> comments
+                    </span>
+                    <%}else{%>
+                      <span>No comments yet</span>
+                      <%}%>
+                        <form id="comment-form">
+
+                          <input id="commentinput" type="comments" id="commentinput" required
+                            placeholder="Add a comment">
+                          <!-- <button  class="btn btn-white" type="submit">Post</button> -->
+                        </form>
+
+            </div>
+          </div>
+          <% }) %>
+
+      </div>
+
+    </div>
+  </div>
+
+
+  <script>
+
+
+    // /////////////////////////////////////////////////****************************///////////////////////////////////
+    // ////////////////////////////////*****************SHOW A POSTS LIKES SECTION ***********///////////////////////
+    // /////////////////////////////////////////////////****************************///////////////////////////////////
+
+    function formatTime(createdAt) {
+  const now = new Date();
+  const created = new Date(createdAt);
+  const timeDiffInSeconds = Math.floor((now - created) / 1000);
+
+  if (timeDiffInSeconds < 60) {
+    return `${timeDiffInSeconds} seconds ago`;
+  } else if (timeDiffInSeconds < 3600) {
+    const minutes = Math.floor(timeDiffInSeconds / 60);
+    return `${minutes} ${minutes === 1 ? 'minute' : 'minutes'} ago`;
+  } else if (timeDiffInSeconds < 86400) {
+    const hours = Math.floor(timeDiffInSeconds / 3600);
+    return `${hours} ${hours === 1 ? 'hour' : 'hours'} ago`;
+  } else {
+    const days = Math.floor(timeDiffInSeconds / 86400);
+    return `${days} ${days === 1 ? 'day' : 'days'} ago`;
+  }
+}
+
+document.addEventListener("DOMContentLoaded", function() {
+    const postTime = document.getElementById("postTime");
+    postTime.innerHTML = formatTime(createdAt);
+});
+
+
+
+    let forcommentuserid;
+
+    document.addEventListener("click", (event) => {
+      const likedleft = event.target.closest('#userpodtcommenticon');
+      if (likedleft) {
+        forcommentuserid = likedleft.getAttribute('userPostsId');
+        // console.log('User ID:', forcommentuserid);
+        // alert("heyyy id");
+      }
+    });
+
+
+
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const likedIds = document.querySelectorAll(".liked-ids");
+      const likeShowDiv = document.querySelector("#like-show-div-cont");
+      const childDiv = document.querySelector(".like-show-div");
+
+
+      likedIds.forEach(e => {
+        e.addEventListener('click', () => {
+          // alert('heyyy');
+          event.stopPropagation(); // Prevent the click event from bubbling up
+          // Toggle the display of likeShowDiv
+          likeShowDiv.style.display = (likeShowDiv.style.display === 'none') ? 'flex' : 'none'
+          likeShowDiv.style.display = 'flex';
+        });
+      });
+
+      // Add a click event listener to the whole document
+      document.addEventListener('click', (event) => {
+        // Check if the clicked element is the child div (or any of its descendants)
+        const isClickedOnChildDiv = event.target.closest('.like-show-div');
+        // If the clicked element is outside the child div, hide the #like-show-div-cont.
+        if (!isClickedOnChildDiv) {
+          likeShowDiv.style.display = 'none';
+        }
+      });
+
+    });
+
+    $(document).ready(function () {
+      // Add a click event listener to elements with the class "show-likes"
+      $('.liked-ids').on('click', function () {
+        // Get the post ID from the "postsid" attribute
+        const postId = $(this).attr('postsid');
+        // console.log(postId)
+        // Fetch all likes for the post using an AJAX request
+        $.ajax({
+          type: 'GET',
+          url: `/posts/${postId}/likes`, // Replace this with the actual route to fetch likes for a specific post
+          dataType: 'json',
+          success: function (response) {
+            // "response" will contain an array of objects, each representing a user who liked the post
+            // You can now display the likes data in a way you want, for example, in a modal or a separate section
+            displayLikes(response); // Call the function to display the likes data
+            console.log("responseeeeeeee", response)
+          },
+          error: function (error) {
+            console.error(error);
+          }
+        });
+      });
+
+      // Function to display the likes data
+      function displayLikes(likesData) {
+        // console.log(likesData,"heyyyyyyyyyyyyyyyyyyyyyyyyyyy")
+        // Assuming you have an HTML element with the ID "likes-container" to display the likes data
+        const likesContainer = $('.liked-user-cont');
+
+
+        // Clear the existing content
+        likesContainer.empty();
+
+        // Loop through the likesData array and display each like
+        likesData.forEach(function (like) {
+          const likeElement = `
+          <div class="liked-user">
+            <div class="liked-profile"> <img src="/images/uploads/${like.profileimage}" alt=""> </div>
+            <div class="liked-username">
+              <h4 id="likeduser" likeduserID="${like._id}" >${like.username} </h4>
+              <h5>${like.name}</h5>
+            </div>
+          </div>
+
+
+        `;
+          likesContainer.append(likeElement);
+        });
+
+        // Show the container (you can use a modal or any other UI element for this purpose)
+        likesContainer.show();
+      }
+    });
+    // let loggedinUserId;
+
+    document.addEventListener("click", (event) => {
+      const likeduser = event.target.closest('#likeduser'); // Use class instead of id
+      if (likeduser) {
+        const likeduserid = likeduser.getAttribute('likeduserID'); // Use lowercase for consistency
+
+        // Assuming loggedinUserId is correctly set on the page
+         loggedinUserId = document.getElementById('homepostscontainer').getAttribute('loggedinuserhome');
+
+        if (likeduserid === loggedinUserId) {
+          window.location.href = `/profile`; // Redirect to the logged-in user's profile
+        } else {
+          window.location = `/userprofile/${likeduserid}`;
+        }
+      }
+    });
+
+
+
+    // /////////////////////////////////////////////////****************************///////////////////////////////////
+    // ////////////////////////////////*****************END OF SHOW A POSTS LIKES SECTION ***********///////////////////////
+    // /////////////////////////////////////////////////****************************///////////////////////////////////
+
+
+
+
+
+
+
+
+
+
+    // /////////////////////////////////////////////////****************************///////////////////////////////////
+    // ////////////////////////////////*****************FULL POSTS DETAILES & COMMENT POSTE SECTION ***********///////////////////////
+    // /////////////////////////////////////////////////****************************///////////////////////////////////
+
+
+
+
+
+    let bottomform;
+    let postidvalue;
+
+
+
+    $(document).ready(function () {
+      $('#submitComment').prop('disabled', true).removeClass('btn-blue').addClass('btn-white');
+
+      // Add event listener to the input field
+      $('#commentinput').on('input', function () {
+        const commentContent = $(this).val().trim(); // Trim any leading or trailing spaces
+
+        // Check if the comment content is empty or not
+        if (commentContent.length > 0) {
+          // Enable the submit button and set the blue style
+          $('#submitComment').prop('disabled', false).removeClass('btn-white').addClass('btn-blue');
+        } else {
+          // Disable the submit button and set the white style
+          $('#submitComment').prop('disabled', true).removeClass('btn-blue').addClass('btn-white');
+        }
+      });
+
+      // Function to fetch and display the latest comments for a specific post
+      function fetchAndDisplayComments(postId) {
+        $.ajax({
+          type: 'GET',
+          url: `/postscomment/${postId}/details`,
+          data: { _t: new Date().getTime() }, // Add a cache-busting parameter
+          dataType: 'json',
+          success: function (post) {
+            // Now you have the updated post details in the "post" object, which includes the comments
+            console.log('Post details with comments:', post);
+            console.log('Post Comments:', post.comments);
+            // Update the UI to display the comments
+            const commentsContainer = $('.right-full-middle');
+            commentsContainer.empty();
+            post.comments.forEach((comment) => {
+              if (comment.user) {
+                commentsContainer.append(`
+      <div  class="commented-user">
+        <div class="commented-user-profile" >
+          <img src="../images/uploads/${comment.user.profileimage}" alt="User Profile">
+        </div>
+        <div class="commented-user-name">
+          <div class="timediv">
+            <h3  id="commentedusersid"  commentuserID ="${comment.user}" >${comment.user.username}</h3>
+            <h3>${comment.content}</h3>
+          </div>
+          <p>${comment.createdAt}</p>
+        </div>
+      </div>
+    `);
+              }
+            }
+            );
+          },
+          error: function (error) {
+            console.error(error);
+          },
+        });
+      }
+
+      // Add event listener to the comment form submit
+      $('#comment-form').on('submit', function (event) {
+        event.preventDefault();
+        const commentContent = $('#commentinput').val();
+        const postId = forcommentuserid; // You can get postId from wherever you have stored it.
+
+        console.log(postId);
+        // console.log({ "posts id jispe comment co rha hia ": postId });
+        // console.log({ "inputs field me jo bhi likha hai wo hai ye": commentContent });
+
+        // Make the AJAX request to post the comment along with user details
+        $.ajax({
+          type: 'POST',
+          url: `/comments/${postId}`,
+          data: {
+            content: commentContent,
+          },
+          dataType: 'json',
+          success: function (response) {
+            // Handle the response data
+            console.log('Comment posted successfully!', response);
+            // Clear the comment input field
+            $('#commentinput').val('');
+            // Fetch and display the latest comments for the post
+            setTimeout(function () {
+              fetchAndDisplayComments(postId);
+            }, 500); // Adjust the delay time as needed
+          },
+          error: function (error) {
+            console.error(error);
+          },
+        });
+      });
+
+      // Add a click event listener to the comment icons with the class "comment-icon"
+      $('#homepost').on('click', '.comment-icon', function () {
+        document.getElementById('full-homePosts-container').style.display = 'flex';
+        // Get the post ID from the "userPostsId" attribute
+        const postId = $(this).attr('userPostsId');
+
+        // Fetch the full post details and comments using an AJAX request
+        $.ajax({
+          type: 'GET',
+          url: `/posts/${postId}/details`,
+          dataType: 'json',
+          success: function (response) {
+            console.log('Post details with comments:', response);
+            // Handle the full post details and comments
+            displayFullPost(response);
+          },
+          error: function (error) {
+            console.error(error);
+          }
+        });
+      });
+
+      // Function to display the full post data and comments
+      function displayFullPost(fullPostData) {
+        const fullHomePostsContainer = $('#full-homePosts-container');
+        let rightFullTop = document.querySelector('.right-full-top');
+        console.log('Full post data with comments:', fullPostData);
+        // Update the content of the elements with the full post data
+        fullHomePostsContainer.find('.left-full-home img').attr('src', fullPostData.media[0]); // Fix here
+        fullHomePostsContainer.find('.right-full-top h4').text(fullPostData.userid.username);
+
+        const fullTopProfile = document.querySelector('.full-top-profile');
+        fullTopProfile.innerHTML = `<img src="../images/uploads/${fullPostData.userid.profileimage}" alt="">`;
+        rightFullTop.setAttribute('data-userid', fullPostData.userid._id);
+
+        bottomform = document.querySelector('.right-full-bottombtom form');
+        bottomform.innerHTML += `<input id="postId" value="${fullPostData._id}">`; // Use innerHTML to append the input element
+        postidvalue = bottomform.querySelector('#postId').value; // Use querySelector within the context of bottomform
+
+        // Show the recent person who liked the post (if any)
+        const recentLikeContainer = fullHomePostsContainer.find('.likedby');
+        recentLikeContainer.empty();
+
+        if (fullPostData.likes.length > 0) {
+          const recentLike = fullPostData.likes[fullPostData.likes.length - 1].username;
+          recentLikeContainer.append(`<span>Like by: ${recentLike}</span>`);
+        }
+
+        // Show all likes
+        const fullLikCcont = fullHomePostsContainer.find('.full-like-cont');
+        fullLikCcont.empty();
+
+        if (fullPostData.likes.length > 0) {
+          const likesText = ` ${fullPostData.likes.length} `;
+          fullLikCcont.append(`<h4>${likesText} <span></span> Likes </h4>`);
+        } else {
+          fullLikCcont.append('<span>No likes yet</span>');
+        }
+
+        const commentsSection = fullHomePostsContainer.find('.right-full-middle');
+        commentsSection.empty(); // Clear existing comments
+
+        if (fullPostData.comments.length > 0) {
+          fullPostData.comments.forEach((comment) => {
+            commentsSection.append(`<div class="commented-user">
+        <div class="commented-user-profile">
+          <img src="../images/uploads/${comment.user.profileimage}" alt="User Profile">
+        </div>
+        <div class="commented-user-name">
+          <div class="timediv">
+            <h3 id="commentedusersid"  commentuserID ="${comment.user._id}" >${comment.user.username}</h3>
+            <h3>${comment.content}</h3>
+          </div>
+          <p>${comment.createdAt}</p>
+        </div>
+      </div>`);
+          });
+        } else {
+          commentsSection.append('<div class="no-comments">No comments yet</div>');
+        }
+
+        // Clear the comment input field
+        $('#commentinput').val('');
+
+        // Show the container (you can use a modal or any other UI element for this purpose)
+        fullHomePostsContainer.show();
+      }
+    })
+
+
+
+
+
+    document.addEventListener("click", (event) => {
+      const commentElement = event.target.closest('#commentedusersid');
+      if (commentElement) {
+        const userID = commentElement.getAttribute('commentuserID');
+        if (userID === loggedinUserId) {
+          window.location = `/profile`; // Redirect to the logged-in user's profile
+        } else {
+          window.location = `/userprofile/${userID}`
+        }
+        // window.location = `/userprofile/${userID}`;
+        // console.log('User ID:', userID);
+        // alert("heyyy id");
+      }
+    });
+
+
+
+
+    $('#full-homePosts-container').on('click', '.right-full-top', function () {
+      // Get the user's ID from the data-userid attribute
+      let userID = $(this).data('userid');
+
+      // Get the loggedinUserId from the attribute
+      let loggedinUserId = document.getElementById('homepostscontainer').getAttribute('loggedinuserhome');
+
+      if (userID === loggedinUserId) {
+        window.location = `/profile`; // Redirect to the logged-in user's profile
+      } else {
+        window.location = `/userprofile/${userID}`;
+      }
+    });
+
+
+
+
+
+
+
+    const fullcontainer = document.querySelector('#full-homePosts-container')
+    const fulpostclose = document.querySelector('.ri-close-line')
+    document.addEventListener('click', function (event) {
+      // alert('heuyyyyyyyyyyyyyyy')
+      // Check if the clicked element is inside the #searchbar or the #searchicon itself
+      if (!fullcontainer.contains(event.target) && event.target !== fullcontainer) {
+        // Hide the #searchbar when clicking outside
+        fullcontainer.style.display = 'none';
+      }
+    });
+
+
+    fulpostclose.addEventListener('click', () => {
+      fullcontainer.style.display = "none"
+    })
+
+
+
+    //////////////////////////////////////////****************************//////////////////////////////////////////////////////
+    ///////////////////////****************END OF FULL POSTS DETAILES SECTION ***************///////////////////////////
+    ////////////////////////////////////////******************************/////////////////////////////////////////////
+
+
+
+
+
+
+    let loggedinuseridalluserwali;
+
+
+
+
+    var userposts = document.querySelectorAll(".userinfornation")
+
+
+
+
+    userposts.forEach(u => {
+      u.addEventListener('click', function (event) {
+        const forloggedinuserprofile = event.target.closest("#homepostscontainer");
+
+        if (forloggedinuserprofile) {
+          loggedinuseridalluserwali = forloggedinuserprofile.getAttribute('loggedinuserhome');
+          console.log('User ID:', loggedinuseridalluserwali);
+
+          const userID = u.getAttribute('userId');
+          console.log("useridddd", userID);
+
+          if (userID === loggedinuseridalluserwali) {
+            window.location.href = `/profile`; // Redirect to the logged-in user's profile
+          } else {
+            window.location.href = `/userprofile/${userID}`;
+          }
+        }
+      });
+    });
+
+
+
+
+    /////////////////////***************///////////////////////****************/////////////////////////////
+    /////////////////////***************STORY CONTAINER SCRIPT?****************/////////////////////////////
+/////////////////////***************///////////////////////****************/////////////////////////////
+
+
+    $(document).ready(function () {
+      let currentStoryIndex = 0;
+  let currentUserIndex = 0;
+  let storyInterval;
+  let stories; // Store the fetched stories
+  let profileImage;
+  let users;
+  let nextUserId;
+  let width = 0;
+  let userId
+  const storyDuration = 10000; // 10 seconds per story
+  const $storyContainer = $('.storycont');
+  const $fullStoryContainer = $('.full-story');
+  const $fullstoryContainer = $('.storycontainer');
+  const $progressLine = $('.progress-line');
+
+  // Toggle story upload form
+  $('#storys i').click(function () {
+    $('#story-image').click();
+  });
+  $('#story-image').change(function () {
+    $('#story-upload-form').submit();
+  });
+
+  // Handle story upload form submission
+  $('#story-upload-form').submit(function (e) {
+    e.preventDefault();
+
+    const formData = new FormData();
+    const storyImage = $('#story-image')[0].files[0];
+
+    if (!storyImage) {
+      console.error('No file selected');
+      return;
+    }
+
+    formData.append('story_img', storyImage);
+
+    $.ajax({
+      url: '/postStory',
+      type: 'POST',
+      data: formData,
+      contentType: false,
+      processData: false,
+      success: function (data) {
+        console.log('Data from server:', data);
+        // Refresh or update the story display as needed
+      },
+      error: function (error) {
+        console.error('Error:', error);
+      }
+    });
+  });
+
+  // Fetch and display story users
+  $.ajax({
+    url: '/getStoryUsers',
+    type: 'GET',
+    success: function (fetchedUsers) {
+      const storyContainer = $('.sotrycontainer');
+      const storyDiv= $('.lggedinusercont');
+      users = fetchedUsers;
+      users.forEach((user) => {
+        const circularDiv = `
+            <div class="story" data-userid="${user._id}" >
+              <img src="../images/uploads/${user.profileimage}" alt="">
+            </div>`;
+            if (user._id === loggedinUserId) {
+          storyDiv.append(circularDiv); // Append to a different container for the logged-in user's stories
+        } else {
+          storyContainer.append(circularDiv);
+        }
+      });
+
+      // Handle click on a story
+      $('.story').click(function () {
+        const clickedStory = $(this);
+         userId = clickedStory.data('userid');
+        console.log("userid click function wali",userId);
+
+        // Fetch user stories
+        $.ajax({
+          url: `/getUserStories/${userId}`,
+          type: 'GET',
+          success: function (response) {
+            stories = response.stories;
+            profileImage = response.profileImage;
+
+            console.log('Fetched stories:', stories); // Debugging statement
+            // Display the first story immediately
+            displayStory(stories[currentStoryIndex],userId);
+
+            // Start the interval after loading all stories
+            storyInterval = setInterval(switchToNextStory, 10000);
+
+            // Show the full story div
+            $fullStoryContainer.fadeIn().css('display', 'flex');
+          },
+          error: function (xhr, status, error) {
+            console.error('Error fetching user stories:', xhr, status, error);
+          }
+        });
+      });
+    },
+    error: function (error) {
+      console.error('Error fetching users:', error);
+    }
+  });
+
+  // Handle click on the story close button
+  $('#story-close').click(function () {
+    $fullStoryContainer.fadeOut().css('display', 'none');
+    clearInterval(storyInterval);
+  });
+
+  function displayStory(story) {
+
+    const totalStories = stories.length;
+    const widthPerStory = 100 / totalStories;
+    const width = (currentStoryIndex + 1) * widthPerStory;
+
+
+    let username = story.who_posted;
+    let storyImage = story.story_img;
+    console.log("userid from outer function", userId);
+
+    const formattedTimestamp = formatTimestamp(story.timestamp);
+
+    const fullStoryHtml = `
+      <div class="storycontainer">
+        <div class="progress-line"  style="width: ${width}%;" ></div>
+        <div class="user-div">
+          <div class="profile-image">
+            <img src="../images/uploads/${profileImage}" alt="">
+          </div>
+          <h4>${username}</h4><br>
+          <span>${formattedTimestamp}</span>
+        </div>
+        <img src="${storyImage}" alt="">
+      </div>
+    `;
+
+    $fullstoryContainer.html(fullStoryHtml);
+
+    // Implement automatic story deletion logic here
+    const storyTimestamp = new Date(story.timestamp).getTime();
+    const currentTime = new Date().getTime();
+    const twentyFourHoursInMilliseconds = 24 * 60 * 60 * 1000;
+
+    console.log(story._id);
+    
+    if (currentTime - storyTimestamp >= twentyFourHoursInMilliseconds) {
+      console.log("story iddd",story._id);
+      console.log("userid",userId);
+      // Make an AJAX call to delete the story on the server
+      $.ajax({
+        url: `/deleteStory/${userId}/${story._id}`,
+        type: 'DELETE',
+        success: function (data) {
+          console.log('Story deleted:', data);
+          // Reload the user's stories to reflect the changes
+          loadUserStories(nextUserId);
+        },
+        error: function (xhr, status, error) {
+          console.error('Error deleting story:', xhr, status, error);
+        }
+      });
+    }
+
+
+    animateProgressLine(currentStoryIndex, storyDuration);
+
+    startStoryInterval();
+  }
+
+  function startStoryInterval() {
+    if (storyInterval) {
+      clearInterval(storyInterval);
+    }
+
+    storyInterval = setInterval(switchToNextStory,  storyDuration);
+  }
+
+  
+
+  // Function to animate the progress line
+  function animateProgressLine(storyIndex, storyDuration) {
+  
+
+  function animate(currentTime, startTime) {
+      const elapsedTime = currentTime - startTime;
+
+      if (elapsedTime <= storyDuration) {
+        width = (elapsedTime / storyDuration) * (1 / stories.length) + (storyIndex / stories.length);
+        $progressLine.css('width', `${width}%`);
+
+        requestAnimationFrame(function (timestamp) {
+          animate(timestamp, startTime);
+        });
+      } else {
+          switchToNextStory();
+        }
+    }
+
+    animate(currentStoryIndex, new Date().getTime());
+}
+
+
+  // Function to switch to the next story
+  function switchToNextStory() {
+    const story = stories[currentStoryIndex];
+    if (!story) {
+      // If all stories for the current user are displayed, switch to the next user
+      switchToNextUser();
+      return;
+    }
+
+    displayStory(story);
+    currentStoryIndex++;
+  }
+
+
+  $('#story-prev').click(function () {
+    if (currentStoryIndex > 0) {
+      currentStoryIndex--;
+      displayStory(stories[currentStoryIndex], nextUserId);
+    } else if (currentUserIndex > 0) {
+      currentUserIndex--;
+      nextUserId = users[currentUserIndex]._id;
+      loadUserStories(nextUserId);
+    }
+  });
+
+  $('#story-next').click(function () {
+    if (currentStoryIndex < stories.length - 1) {
+      currentStoryIndex++;
+      displayStory(stories[currentStoryIndex], nextUserId);
+    } else if (currentUserIndex < users.length - 1) {
+      currentUserIndex++;
+      currentStoryIndex = 0;
+      nextUserId = users[currentUserIndex]._id;
+      loadUserStories(nextUserId);
+    }
+  });
+  
+  // Function to switch to the next user
+  function switchToNextUser() {
+    if (currentUserIndex >= users.length - 1) {
+      // If all users' stories have been displayed, close the full story div and clear the interval
+      $fullStoryContainer.fadeOut().css('display', 'none');
+      clearInterval(storyInterval);
+    } else {
+      currentUserIndex++;
+      currentStoryIndex = 0;
+       nextUserId = users[currentUserIndex]._id;
+      loadUserStories(nextUserId);
+    }
+  }
+
+  // Function to load user stories
+  function loadUserStories(userId) {
+    $.ajax({
+      url: `/getUserStories/${userId}`,
+      type: 'GET',
+      success: function (response) {
+        stories = response.stories;
+        profileImage = response.profileImage;
+        switchToNextStory();
+      },
+      error: function (xhr, status, error) {
+        console.error('Error fetching user stories:', xhr, status, error);
+      }
+    });
+  }
+});
+
+
+
+
+    // Calculate the time difference in hours
+    function calculateTimeDifference(timestamp) {
+      const now = new Date();
+      const postTime = new Date(timestamp);
+      const timeDifference = now - postTime;
+      const hoursDifference = Math.floor(timeDifference / (1000 * 60 * 60));
+      return hoursDifference;
+    }
+
+    // Format timestamp as "X hours ago" or full timestamp
+    function formatTimestamp(timestamp) {
+      const hoursDifference = calculateTimeDifference(timestamp);
+      if (hoursDifference === 1) {
+        return '1h';
+      } else if (hoursDifference < 24) {
+        return `${hoursDifference}h`;
+      } else {
+        // If more than 24 hours, display the actual timestamp
+        return new Date(timestamp).toLocaleString();
+      }
+    }
+
+    
+
+
+  </script>
+
+
+  <%include ./Partials/fotter.ejs%>

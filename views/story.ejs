@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Swiper demo</title>
+    <meta name="viewport"content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1"/>
+    <!-- Link Swiper's CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css"
+    />
+
+    <!-- Demo styles -->
+
+
+
+  </head>
+
+  <body>
+    <!-- Swiper -->
+    <div class="swiper mySwiper">
+      <div class="swiper-wrapper">
+        <div class="swiper-slide">
+          
+        </div>
+        <div class="swiper-slide">
+            <div data-slide="slide" class="slide child-slide">
+              <div class="Stories">
+              
+                <img
+                  src="../public/images/posts/"
+                  alt="Img 1"
+                />
+              </div>
+
+              <div class="slide-nav">
+                <div class="slide-thumb"></div>
+                <button class="slide-prev">Previous</button>
+                <button class="slide-next">Next</button>
+              </div>
+            </div>
+        </div>
+        <!-- <div class="swiper-slide">
+            <div data-slide="slide" class="slide child-slide">
+              <div class="Stories">
+                <img
+                  src="https://i0.wp.com/macmagazine.com.br/wp-content/uploads/2018/09/14-wall-iphonexs02.png?ssl=1"
+                  alt="Img 1"
+                />
+                <img
+                  src="https://www.iclarified.com/images/news/86246/417032/417032.jpg"
+                  alt="Img 2"
+                />
+                <img
+                  src="https://lh3.googleusercontent.com/pw/AM-JKLV-k3_D29YpRF2UMv3ProFuZieWwCfTkelEfR9lajJv6JQQybWY_CgwvMfaWDZgruIhhwm0Lv6s_cMlyAfDaMBpBvtQztS-6szLEDYUuGQoOnnndLcvbCFWO_ae7NVScBrSWyYoMXevFltarjBlBWHQ=w279-h603-no"
+                  alt="Img 3"
+                />
+              </div>
+
+              <div class="slide-nav">
+                <div class="slide-thumb"></div>
+                <button class="slide-prev">Previous</button>
+                <button class="slide-next">Next</button>
+              </div>
+            </div>
+        </div>
+        <div class="swiper-slide">
+            <div data-slide="slide" class="slide child-slide">
+              <div class="Stories">
+                <img
+                  src="https://i0.wp.com/macmagazine.com.br/wp-content/uploads/2018/09/14-wall-iphonexs02.png?ssl=1"
+                  alt="Img 1"
+                />
+                <img
+                  src="https://www.iclarified.com/images/news/86246/417032/417032.jpg"
+                  alt="Img 2"
+                />
+                <img
+                  src="https://lh3.googleusercontent.com/pw/AM-JKLV-k3_D29YpRF2UMv3ProFuZieWwCfTkelEfR9lajJv6JQQybWY_CgwvMfaWDZgruIhhwm0Lv6s_cMlyAfDaMBpBvtQztS-6szLEDYUuGQoOnnndLcvbCFWO_ae7NVScBrSWyYoMXevFltarjBlBWHQ=w279-h603-no"
+                  alt="Img 3"
+                />
+              </div>
+
+              <div class="slide-nav">
+                <div class="slide-thumb"></div>
+                <button class="slide-prev">Previous</button>
+                <button class="slide-next">Next</button>
+              </div>
+            </div>
+        </div>
+        <div class="swiper-slide">
+            <div data-slide="slide" class="slide child-slide">
+              <div class="Stories">
+                <img
+                  src="https://i0.wp.com/macmagazine.com.br/wp-content/uploads/2018/09/14-wall-iphonexs02.png?ssl=1"
+                  alt="Img 1"
+                />
+                <img
+                  src="https://www.iclarified.com/images/news/86246/417032/417032.jpg"
+                  alt="Img 2"
+                />
+                <img
+                  src="https://lh3.googleusercontent.com/pw/AM-JKLV-k3_D29YpRF2UMv3ProFuZieWwCfTkelEfR9lajJv6JQQybWY_CgwvMfaWDZgruIhhwm0Lv6s_cMlyAfDaMBpBvtQztS-6szLEDYUuGQoOnnndLcvbCFWO_ae7NVScBrSWyYoMXevFltarjBlBWHQ=w279-h603-no"
+                  alt="Img 3"
+                />
+              </div>
+
+              <div class="slide-nav">
+                <div class="slide-thumb"></div>
+                <button class="slide-prev">Previous</button>
+                <button class="slide-next">Next</button>
+              </div>
+            </div>
+        </div> -->
+        <div class="swiper-slide">
+          
+        </div>
+        <div class="swiper-slide" data-swiper-autoplay="200000">Slide 2</div>
+        <div class="swiper-slide">Slide 3</div>
+      </div>
+      <div class="swiper-button-next"></div>
+      <div class="swiper-button-prev"></div>
+      <div class="swiper-pagination"></div>
+      <div class="autoplay-progress">
+        <svg viewBox="0 0 48 48">
+          <circle cx="24" cy="24" r="20"></circle>
+        </svg>
+        <span></span>
+      </div>
+    </div>
+
+    <!-- Swiper JS -->
+    <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
+
+    <!-- Initialize Swiper -->
+    <script>
+      const progressCircle = document.querySelector('.autoplay-progress svg');
+      const progressContent = document.querySelector('.autoplay-progress span');
+      var swiper = new Swiper('.mySwiper', {
+        spaceBetween: 30,
+        centeredSlides: true,
+        autoplay: {
+          delay: 2500,
+          disableOnInteraction: false,
+        },
+        pagination: {
+          el: '.swiper-pagination',
+          clickable: true,
+        },
+        navigation: {
+          nextEl: '.swiper-button-next',
+          prevEl: '.swiper-button-prev',
+        },
+        on: {
+          autoplayTimeLeft(s, time, progress) {
+            progressCircle.style.setProperty('--progress', 1 - progress);
+            progressContent.textContent = `${Math.ceil(time / 1000)}s`;
+          },
+        },
+      });
+
+
+
+
+
+
+
+
+    </script>
+
+
+
+
+<script>
+
+
+    class SlideStories {
+  constructor(id) {
+    this.slide = document.querySelector(`[data-slide=${id}]`);
+    this.active = 0;
+    this.init();
+  }
+
+  activeSlide(index) {
+    this.active = index;
+    this.items.forEach((item) => {
+      item.classList.remove("active");
+    });
+    this.items[index].classList.add("active");
+    this.thumbItems.forEach((item) => {
+      item.classList.remove("active");
+    });
+    this.thumbItems[index].classList.add("active");
+    this.autoSlide();
+    console.log(this.thumbItems.classList);
+  }
+
+  prev() {
+    if (this.active > 0) {
+      this.activeSlide(this.active - 1);
+    } else {
+      this.activeSlide(this.items.length - 1);
+    }
+  }
+
+  next() {
+    if (this.active < this.items.length - 1) {
+      this.activeSlide(this.active + 1);
+    } else {
+      this.activeSlide(0);
+    }
+  }
+
+  addNavigation() {
+    const nextBtn = this.slide.querySelector(".slide-next");
+    const prevBtn = this.slide.querySelector(".slide-prev");
+    nextBtn.addEventListener("click", this.next);
+    prevBtn.addEventListener("click", this.prev);
+  }
+
+  addThumbItems() {
+    this.items.forEach(() => (this.thumb.innerHTML += `<span></span>`));
+    this.thumbItems = Array.from(this.thumb.children);
+  }
+
+  autoSlide() {
+    clearTimeout(this.timeout);
+    this.timeout = setTimeout(this.next, 5000);
+  }
+
+  init() {
+    this.next = this.next.bind(this);
+    this.prev = this.prev.bind(this);
+    this.items = this.slide.querySelectorAll(".Stories > *");
+    this.thumb = this.slide.querySelector(".slide-thumb");
+    this.addThumbItems();
+    this.activeSlide(0);
+    this.addNavigation();
+  }
+}
+
+new SlideStories("slide");
+
+</script>
+  </body>
+</html>
